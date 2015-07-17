@@ -3,6 +3,7 @@
 import threading
 import time
 import os
+import curses
 
 # list of networks to hack
 networks = []
@@ -12,11 +13,25 @@ display_sleep = 1
 discovery_sleep = 120
 autohack_sleep = 10
 
+# curses object, used for cleanup
+stdscr = curses.initscr()
+
 # update the command line display TODO
 def display_thread():
-  while True:
-    # sleep until next update time
-    time.sleep(display_sleep)
+  # put into try/except to cleanup curses without issues
+  try:
+    # initial setup
+    curses.noecho()
+    curses.cbreak()
+    stdscr.keypad(1)
+    while True:
+
+      # sleep until next update time
+      time.sleep(display_sleep)
+  except:
+    curses.nocbreak()
+    stdscr.keypad(0)
+    curses.echo()
 
 # add information about found networks to the shared network list TODO
 def update_networks(found_networks, interface):
