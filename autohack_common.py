@@ -1,5 +1,4 @@
 # autohack common variales/functions
-import curses
 import sys
 
 # list of networks to hack
@@ -10,16 +9,12 @@ display_sleep = 1
 discovery_sleep = 120
 autohack_sleep = 10
 
-# curses object, used for cleanup
-stdscr = curses.initscr()
-
 # ----- helper functions ----- #
 
 # cleanup function, run before exiting
 def cleanup(signal = 0, frame = None):
-  print 'Autohack Died, Exiting Cleanly'
-  curses.nocbreak()
-  stdscr.keypad(0)
-  curses.echo()
+  log('Autohack Died, Exiting Cleanly')
   sys.exit(0)
 
+def log(message):
+  print message

@@ -19,13 +19,13 @@ signal.signal(signal.SIGTERM, cleanup)
 atexit.register(cleanup)
 
 # start display thread
-threading.Thread(target=display_thread)
+threading.Thread(target=display_thread).start()
 
 # start network discovery thread
-threading.Thread(target=discovery_thread)
+threading.Thread(target=discovery_thread).start()
 
 # start autohack thread
-threading.Thread(target=autohack_thread)
+threading.Thread(target=autohack_thread).start()
 
 # stay alive
 while True:

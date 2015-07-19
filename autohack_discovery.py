@@ -1,4 +1,7 @@
 # network discovery functions and thread
+import time
+import os
+
 from autohack_common import *
 
 # add information about found networks to the shared network list TODO
@@ -8,6 +11,7 @@ def update_networks(found_networks, interface):
 
 # update the list of nearby networks
 def discovery_thread():
+  log('Starting Discovery Thread')
   while True:
     # get the interfaces on this machine
     interfaces = [x.split(' ')[0] for x in os.popen('ifconfig -s', 'r').read().split('\n')[2:]][:-1]
