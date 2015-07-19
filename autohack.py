@@ -2,6 +2,7 @@
 # program to auto hack nearby networks
 import threading
 import signal
+import atexit
 import curses
 import time
 import os
@@ -17,21 +18,22 @@ autohack_sleep = 10
 # curses object, used for cleanup
 stdscr = curses.initscr()
 
-# update the command line display TODO
+# update the command line display
 def display_thread():
-  # put into try/except to cleanup curses without issues
+  # initialize curses, cleanup if something goes wrong
   try:
-    # initial setup
     curses.noecho()
     curses.cbreak()
     stdscr.keypad(1)
-    while True:
-      # update display
-
-      # sleep until next update time
-      time.sleep(display_sleep)
   except:
     cleanup()
+
+  # main loop here
+  while True:
+    # update display TODO
+
+    # sleep until next update time
+    time.sleep(display_sleep)
 
 # add information about found networks to the shared network list TODO
 def update_networks(found_networks, interface):
@@ -74,6 +76,8 @@ def cleanup():
 
 # attach signal catchers to perform cleanup
 signal.signal(signal.SIGINT, cleanup)
+signal.signal(signal.SIGTERM, cleanup)
+atexit.register(cleanup)
 
 # start display thread
 threading.Thread(target=display_thread)
